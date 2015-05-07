@@ -45,11 +45,21 @@ set ignorecase                " search ignoring case
 set showmatch                 " show matching bracket
 set autoread
 
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+set sidescroll=5
+set listchars+=precedes:<,extends:>
+
 " CtrlP
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
 " Line numbers
 set number
+
+" Format the status line
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 
 iab codeforces
 \import sys
