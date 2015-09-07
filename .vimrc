@@ -1,20 +1,33 @@
 set nocompatible
 
+" Leader
+"let mapleader="\<Space>"
+map <Space> <leader>
+nnoremap <Leader>a :echo "Hey there leader"<CR>
+
 " Plugins
 set shell=/bin/bash
 filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-"Plugin 'altercation/vim-colors-solarized'
+"Plugin 'matchit.zip'
 Plugin 'flazz/vim-colorschemes'
-Plugin 'davidhalter/jedi-vim'
-"Plugin 'tpope/vim-surround'
+"Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-surround'
 Plugin 'kien/ctrlp.vim'
+Plugin 'lervag/vimtex'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+"Tex
+let vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+let vimtex_view_general_options = '-r -g @line @pdf @tex'
+" Husk \usepackage{pdfsync}
+"nmap <leader>s :w<cr><leader>lv
+
 set mouse=a
+set clipboard=unnamed
 
 " Colors
 syntax enable
@@ -33,6 +46,7 @@ set list
 set expandtab
 set smarttab
 set nowrap
+set backspace=2 " Allow deleting form insert mode
 
 " Who wants an 8 character tab?  Not me!
 set shiftwidth=3
@@ -45,21 +59,23 @@ set ignorecase                " search ignoring case
 set showmatch                 " show matching bracket
 set autoread
 
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-set sidescroll=5
-set listchars+=precedes:<,extends:>
-
 " CtrlP
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
 " Line numbers
 set number
 
-" Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+" For tex
+set breakindent showbreak=..
+set linebreak
+set foldmethod=syntax
+set wrap
+map j gj
+map k gk
+
+" I want my surround on lower case S
+map s ys
+
 
 iab codeforces
 \import sys
