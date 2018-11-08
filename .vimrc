@@ -1,7 +1,6 @@
 set nocompatible
 
 " Leader
-"let mapleader="\<Space>"
 map <Space> <leader>
 nnoremap <Leader>a :echo "Hey there leader"<CR>
 
@@ -25,13 +24,19 @@ Plugin 'lervag/vimtex'
 "Plugin 'vim-grammarous'
 "Plugin 'rhysd/committia.vim'
 "Plugin 'scrooloose/syntastic'
+Plugin 'Chiel92/vim-autoformat'
 Plugin 'google/yapf', { 'rtp': 'plugins/vim' }
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-"Tex
+" Tex
+"let g:vimtex_compiler_method = 'arara'
+let g:vimtex_quickfix_open_on_warning = 0
 let vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
 let vimtex_view_general_options = '-r -g @line @pdf @tex'
+let g:formatdef_latexindent = '"latexindent --logfile=/dev/null -y=\"defaultIndent:\\\"" . repeat(" ", &shiftwidth) . "\\\"\""'
+let g:formatters_tex = ['latexindent']
+
 " Husk \usepackage{pdfsync}
 "nmap <leader>s :w<cr><leader>lv
 \langle sdf \rangle
