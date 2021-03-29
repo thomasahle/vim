@@ -15,6 +15,7 @@ Plugin 'flazz/vim-colorschemes'
 "Plugin 'terryma/vim-multiple-cursors'
 "Plugin 'tpope/vim-surround'
 "Plugin 'SirVer/ultisnips'
+"Plugin 'honza/vim-snippets' " Need this and ultisnips
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-textobj-user'
 Plugin 'rhysd/vim-operator-surround'
@@ -24,6 +25,7 @@ Plugin 'lervag/vimtex'
 "Plugin 'vim-grammarous'
 "Plugin 'rhysd/committia.vim'
 "Plugin 'scrooloose/syntastic'
+Plugin 'codota/tabnine-vim'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'google/yapf', { 'rtp': 'plugins/vim' }
 call vundle#end()            " required
@@ -32,8 +34,8 @@ filetype plugin indent on    " required
 " Tex
 "let g:vimtex_compiler_method = 'arara'
 let g:vimtex_quickfix_open_on_warning = 0
-let vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-let vimtex_view_general_options = '-r -g @line @pdf @tex'
+"let vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+"let vimtex_view_general_options = '-r -g @line @pdf @tex'
 let g:formatdef_latexindent = '"latexindent --logfile=/dev/null -y=\"defaultIndent:\\\"" . repeat(" ", &shiftwidth) . "\\\"\""'
 let g:formatters_tex = ['latexindent']
 
@@ -59,9 +61,17 @@ call textobj#user#plugin('latex', {
 \ })
 
 set mouse=a
+" For mac
 set clipboard=unnamedplus
 
 " Colors
+" Vim colors
+if exists('+termguicolors')
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
 syntax enable
 set background=dark
 "let g:solarized_termcolors=256
@@ -87,6 +97,7 @@ set softtabstop=3
 set nowrapscan
 set incsearch                 " incremental search
 set ignorecase                " search ignoring case
+set smartcase                " don't ignore upper case
 "set hlsearch                  " highlight the search
 set showmatch                 " show matching bracket
 set autoread
@@ -116,12 +127,20 @@ map <C-Y> :call yapf#YAPF()<cr>
 " I want my surround on lower case S
 map s ys
 
-iab codeforces
-\import sys
-\<CR>read = lambda f=int: map(f, sys.stdin.readline().split())
-\<CR>array = lambda *ds: [array(*ds[1:]) for _ in range(ds[0])] if ds else 0
-\<CR>
-\<CR>N, = read()
-\<CR>xs = read()
-\<CR>
+iab codeforces import sys
+   \<CR>read = lambda f=int: map(f, sys.stdin.readline().split())
+   \<CR>array = lambda *ds: [array(*ds[1:]) for _ in range(ds[0])] if ds else 0
+   \<CR>
+   \<CR>N, = read()
+   \<CR>xs = read()
+   \<CR>
+
+iab codejam import sys
+   \<CR>read = lambda f=int: map(f, sys.stdin.readline().split())
+   \<CR>array = lambda *ds: [array(*ds[1:]) for _ in range(ds[0])] if ds else 0
+   \<CR>
+   \<CR>T, = read()
+   \<CR>for case in range(T):
+   \<CR>    
+   \<CR>    print(f'Case #{case+1}:', res)
 
