@@ -1,6 +1,11 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Pyspark stuff
+export PYSPARK_PYTHON=python3
+export PYSPARK_DRIVER_PYTHON=ipython3
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/thdy/.oh-my-zsh"
 
@@ -8,9 +13,11 @@ export ZSH="/Users/thdy/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="gentoo"
-#ZSH_THEME="jnrowe"
+ZSH_THEME="thomas"
+export KEYTIMEOUT=1
 
+# Allow empty globs
+setopt +o nomatch
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -35,10 +42,11 @@ ZSH_THEME="gentoo"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# Thomas: Disabling auto theme allows us to set a custom title in vim (and other apps)
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -68,6 +76,7 @@ plugins=(
   git
   zsh-syntax-highlighting
   zsh-autosuggestions
+  vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -77,7 +86,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -98,7 +107,31 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias vim='vim --servername auto'
+#alias vim='vim --servername auto'
+alias vim='nvim'
 alias top='top -o cpu'
 
+# eval "$(pyenv init -)"
+# pyenv local 3.8.2
+alias py='python3.9'
+alias ipy='ipython3'
 
+# iTerm2 integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Stop Chrome Swipe Navigation
+defaults write com.google.Chrome.plist AppleEnableSwipeNavigateWithScrolls -bool FALSE
+defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool FALSE
+
+# No mouse accelration
+defaults write .GlobalPreferences com.apple.mouse.scaling -1
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/thdy/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/thdy/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/thdy/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/thdy/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+export PATH="/usr/local/opt/qt/bin:$PATH"
+
+export PATH="/usr/local/opt/python@3.8/bin:$PATH"

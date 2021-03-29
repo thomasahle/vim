@@ -10,6 +10,7 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-sensible'
 "Plugin 'matchit.zip'
 Plugin 'flazz/vim-colorschemes'
 "Plugin 'terryma/vim-multiple-cursors'
@@ -22,47 +23,80 @@ Plugin 'rhysd/vim-operator-surround'
 "Plugin 'sgur/vim-textobj-parameter'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lervag/vimtex'
-"Plugin 'vim-grammarous'
+
+Plugin 'zxqfl/tabnine-vim'
+"Plugin 'rhysd/vim-grammarous'
+"Plugin 'w0rp/ale'
+
+"Plugin 'Shougo/unite.vim'
+"Plugin 'rhysd/unite-redpen.vim'
+Plugin 'tpope/vim-fugitive'
 "Plugin 'rhysd/committia.vim'
 "Plugin 'scrooloose/syntastic'
-Plugin 'codota/tabnine-vim'
-Plugin 'Chiel92/vim-autoformat'
-Plugin 'google/yapf', { 'rtp': 'plugins/vim' }
+"Plugin 'Chiel92/vim-autoformat'
+"Plugin 'google/yapf', { 'rtp': 'plugins/vim' }
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" autocompletion window turn off
+set completeopt=menu
+
 " Tex
-"let g:vimtex_compiler_method = 'arara'
+" Husk \usepackage{pdfsync}
 let g:vimtex_quickfix_open_on_warning = 0
-"let vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-"let vimtex_view_general_options = '-r -g @line @pdf @tex'
 let g:formatdef_latexindent = '"latexindent --logfile=/dev/null -y=\"defaultIndent:\\\"" . repeat(" ", &shiftwidth) . "\\\"\""'
 let g:formatters_tex = ['latexindent']
 
-" Husk \usepackage{pdfsync}
-"nmap <leader>s :w<cr><leader>lv
-\langle sdf \rangle
+" For mac
+"let g:vimtex_view_method='skim'
+"let vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+"let vimtex_view_general_options = '-r -g @line @pdf @tex'
+
+" Following https://castel.dev/post/lecture-notes-1/
+let g:tex_flavor='latex'
+let g:vimtex_quickfix_mode=0
+set conceallevel=1
+let g:tex_conceal='abdmg'
+let g:vimtex_compiler_latexmk = {'callback' : 0, 'build_dir': 'build'}
+let g:tex_comment_nospell = 1
+
 " operator mappings
 map <silent>sa <Plug>(operator-surround-append)
 map <silent>sd <Plug>(operator-surround-delete)
 map <silent>sr <Plug>(operator-surround-replace)
+
 "let g:operator#surround#no_default_blocks = 1
-let g:operator#surround#blocks = {
-\ '-' : [
-\  {'block': ['\langle ', '\rangle '], 'motionwise': ['char', 'line', 'block'], 'keys': ['<','>']},
-\  {'block': ['\\langle', '\\rangle'], 'motionwise': ['char', 'line', 'block'], 'keys': []},
-\ ] }
-call textobj#user#plugin('latex', {
-\   'code': {
-\     'pattern': ['\\langle', '\\rangle'],
-\     'select-a': 'a<',
-\     'select-i': 'i<',
-\   },
-\ })
+"let g:operator#surround#blocks = {
+"\ '-' : [
+"\  {'block': ['\langle ', '\rangle '], 'motionwise': ['char', 'line', 'block'], 'keys': ['<',"'>']},
+"\  {'block': ['\\langle', '\\rangle'], 'motionwise': ['char', 'line', 'block'], 'keys': []},
+"\ ] }
+"call textobj#user#plugin('latex', {
+"\   'code': {
+"\     'pattern': ['\\langle', '\\rangle'],
+"\     'select-a': 'a<',
+"\     'select-i': 'i<',
+"\   },
+"\ })
+" Ignore Tex warnings
+" Disable all warnings
+"let g:vimtex_quickfix_latexlog = {'default' : 0}
+"let g:vimtex_quickfix_open_on_warning = 0
+
+" Spelling
+"setlocal spell
+" I'm tired of spelling errors in my python variables and strings
+autocmd BufEnter *.tex setlocal spell
+set spelllang=en_gb
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+" autocmd FileType plaintex,tex,latex syntax spell toplevel
 
 set mouse=a
-" For mac
 set clipboard=unnamedplus
+
+
+set undodir=~/.vim/undodir
+set undofile
 
 " Colors
 " Vim colors
@@ -77,7 +111,8 @@ set background=dark
 "let g:solarized_termcolors=256
 "colorscheme solarized
 colorscheme Monokai
-
+" You complete me
+highlight Pmenu ctermbg=237 ctermfg=250
 set showcmd
 set ruler
 set encoding=utf-8
@@ -102,26 +137,43 @@ set smartcase                " don't ignore upper case
 set showmatch                 " show matching bracket
 set autoread
 
+" Set the title of the Terminal to the currently open file
+function! SetTerminalTitle()
+    let titleString = expand('%:t')
+    if len(titleString) > 0
+        let &titlestring = expand('%:t')
+        " this is the format iTerm2 expects when setting the window title
+        let args = "\033];".&titlestring."\007"
+        let cmd = 'silent !echo -e "'.args.'"'
+        execute cmd
+        redraw!
+    endif
+endfunction
+autocmd BufEnter * call SetTerminalTitle()
+
 " CtrlP
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+let g:ctrlp_root_markers = ['supermajority.bib', '*.bib']
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
 
 " Line numbers
 set number
 
 " Syntastic
-let g:syntastic_python_python_exec = 'python3'
+"let g:syntastic_python_python_exec = 'python3'
 "let g:syntastic_python_pylint_exec = 'python3-pylint'
-let g:syntastic_quiet_messages = { "type": "style" }
+"let g:syntastic_quiet_messages = { "type": "style" }
 
-" For tex
-set breakindent showbreak=..
+set breakindent showbreak=..  " For tex
 set linebreak
-set foldmethod=syntax
+"set foldmethod=syntax        " Don't like folds
 set wrap
 map j gj
 map k gk
 
-map <C-Y> :call yapf#YAPF()<cr>
+" Not using yapf right now
+"map <C-Y> :call yapf#YAPF()<cr>
 "imap <C-Y> <c-o>:call yapf#YAPF()<cr>
 
 " I want my surround on lower case S
@@ -143,4 +195,3 @@ iab codejam import sys
    \<CR>for case in range(T):
    \<CR>    
    \<CR>    print(f'Case #{case+1}:', res)
-
