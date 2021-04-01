@@ -55,10 +55,11 @@ let g:formatters_tex = ['latexindent']
 " Following https://castel.dev/post/lecture-notes-1/
 let g:tex_flavor='latex'
 let g:vimtex_quickfix_mode=0
-set conceallevel=1
-let g:tex_conceal='abdmg'
 let g:vimtex_compiler_latexmk = {'callback' : 0, 'build_dir': 'build'}
 let g:tex_comment_nospell = 1
+" Replace Tex symbols with unicode
+" set conceallevel=1
+" let g:tex_conceal='abdmg'
 
 " operator mappings
 map <silent>sa <Plug>(operator-surround-append)
@@ -138,18 +139,19 @@ set showmatch                 " show matching bracket
 set autoread
 
 " Set the title of the Terminal to the currently open file
-function! SetTerminalTitle()
-    let titleString = expand('%:t')
-    if len(titleString) > 0
-        let &titlestring = expand('%:t')
-        " this is the format iTerm2 expects when setting the window title
-        let args = "\033];".&titlestring."\007"
-        let cmd = 'silent !echo -e "'.args.'"'
-        execute cmd
-        redraw!
-    endif
-endfunction
-autocmd BufEnter * call SetTerminalTitle()
+" For iTerm
+" function! SetTerminalTitle()
+"     let titleString = expand('%:t')
+"     if len(titleString) > 0
+"         let &titlestring = expand('%:t')
+"         " this is the format iTerm2 expects when setting the window title
+"         let args = "\033];".&titlestring."\007"
+"         let cmd = 'silent !echo -e "'.args.'"'
+"         execute cmd
+"         redraw!
+"     endif
+" endfunction
+" autocmd BufEnter * call SetTerminalTitle()
 
 " CtrlP
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
@@ -193,5 +195,6 @@ iab codejam import sys
    \<CR>
    \<CR>T, = read()
    \<CR>for case in range(T):
-   \<CR>    
+   \<CR>    xs = read()
+   \<CR>    res = solve(xs)
    \<CR>    print(f'Case #{case+1}:', res)
