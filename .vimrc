@@ -20,6 +20,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-textobj-user'
 Plugin 'rhysd/vim-operator-surround'
+Plugin 'rhysd/vim-textobj-anyblock'
 "Plugin 'sgur/vim-textobj-parameter'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lervag/vimtex'
@@ -61,10 +62,27 @@ let g:tex_comment_nospell = 1
 " set conceallevel=1
 " let g:tex_conceal='abdmg'
 
+" Ignore Tex warnings
+" Disable all warnings
+"let g:vimtex_quickfix_latexlog = {'default' : 0}
+"let g:vimtex_quickfix_open_on_warning = 0
+
+
 " operator mappings
+" Use  saiw(  to surround-append around the inner word with (
 map <silent>sa <Plug>(operator-surround-append)
 map <silent>sd <Plug>(operator-surround-delete)
+" Use  sra[(  to surround-replace arrounding ['s with ('s
 map <silent>sr <Plug>(operator-surround-replace)
+" Use  sdd  to delete whichever bracket is around
+nmap <silent> sdd <Plug>(operator-surround-delete)<Plug>(textobj-anyblock-a)
+
+" I want my surround on lower case S
+" This is not needed for operator-surround
+" map s ys
+
+" Easier to just say  siw  for surround inner word
+map si sai
 
 "let g:operator#surround#no_default_blocks = 1
 "let g:operator#surround#blocks = {
@@ -79,10 +97,6 @@ map <silent>sr <Plug>(operator-surround-replace)
 "\     'select-i': 'i<',
 "\   },
 "\ })
-" Ignore Tex warnings
-" Disable all warnings
-"let g:vimtex_quickfix_latexlog = {'default' : 0}
-"let g:vimtex_quickfix_open_on_warning = 0
 
 " Spelling
 "setlocal spell
@@ -92,7 +106,8 @@ set spelllang=en_gb
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " autocmd FileType plaintex,tex,latex syntax spell toplevel
 
-set mouse=a
+" Let's remove mouse support, since the thinkpad palm rejection is so bad.
+"set mouse=a
 set clipboard=unnamedplus
 
 
@@ -153,6 +168,16 @@ set autoread
 " endfunction
 " autocmd BufEnter * call SetTerminalTitle()
 
+" For Tmux
+if exists('$TMUX')
+   "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window " . expand("%:t"))
+   autocmd BufEnter * call system("tmux rename-window " . expand("%:t"))
+   autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+   set title
+   "autocmd VimLeave * call system("tmux rename-window bash")
+   autocmd VimLeave * call system("tmux setw automatic-rename")
+endif
+
 " CtrlP
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 let g:ctrlp_root_markers = ['supermajority.bib', '*.bib']
@@ -178,9 +203,6 @@ map k gk
 "map <C-Y> :call yapf#YAPF()<cr>
 "imap <C-Y> <c-o>:call yapf#YAPF()<cr>
 
-" I want my surround on lower case S
-map s ys
-
 iab codeforces import sys
    \<CR>read = lambda f=int: map(f, sys.stdin.readline().split())
    \<CR>array = lambda *ds: [array(*ds[1:]) for _ in range(ds[0])] if ds else 0
@@ -193,8 +215,12 @@ iab codejam import sys
    \<CR>read = lambda f=int: map(f, sys.stdin.readline().split())
    \<CR>array = lambda *ds: [array(*ds[1:]) for _ in range(ds[0])] if ds else 0
    \<CR>
+   \<CR>def solve(xs):
+   \<CR>pass
+   \<CR>
    \<CR>T, = read()
    \<CR>for case in range(T):
-   \<CR>    xs = read()
-   \<CR>    res = solve(xs)
-   \<CR>    print(f'Case #{case+1}:', res)
+   \<CR>xs = read()
+   \<CR>res = solve(xs)
+   \<CR>print(f'Case #{case+1}:', res)
+   \<CR>
