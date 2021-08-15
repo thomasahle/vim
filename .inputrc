@@ -1,1 +1,6 @@
-../.inputrc
+#set keymap vi-insert
+set editing-mode vi
+set keymap vi
+set show-mode-in-prompt on
+set vi-ins-mode-string "+"
+set vi-cmd-mode-string ":"
