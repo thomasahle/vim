@@ -2,6 +2,9 @@
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 
+# Make a directory for vim persistent undo
+mkdir ~/.vim/undodir
+
 # If using neovim, you need
 # https://vi.stackexchange.com/questions/12794/how-to-share-config-between-vim-and-neovim
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
