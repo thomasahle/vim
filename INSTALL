@@ -16,3 +16,7 @@ $ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 
+# The thomas_karabiner.json file goes into
+~/.config/karabiner/assets/complex_modifications/thomas.json
+# Also make sure to use the ABC keyboard, rather than the US.
+# (Also not US. International or ABC Extended)

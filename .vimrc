@@ -25,9 +25,9 @@ Plugin 'rhysd/vim-textobj-anyblock'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lervag/vimtex'
 
-Plugin 'zxqfl/tabnine-vim'
+"Plugin 'zxqfl/tabnine-vim'
 "Plugin 'rhysd/vim-grammarous'
-"Plugin 'w0rp/ale'
+Plugin 'w0rp/ale'
 
 "Plugin 'Shougo/unite.vim'
 "Plugin 'rhysd/unite-redpen.vim'
@@ -39,8 +39,14 @@ Plugin 'tpope/vim-fugitive'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+
 " autocompletion window turn off
 set completeopt=menu
+
+" Autoformat python
+let b:ale_linters = ['flake8', 'pylint']
+let g:ale_python_black_executable='pyfmt'
+let b:ale_fixers = ['black']
 
 " Tex
 " Husk \usepackage{pdfsync}
@@ -107,8 +113,10 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 " autocmd FileType plaintex,tex,latex syntax spell toplevel
 
 " Let's remove mouse support, since the thinkpad palm rejection is so bad.
-"set mouse=a
-set clipboard=unnamedplus
+set mouse=a
+
+" Copy for mac
+set clipboard=unnamed
 
 
 set undodir=~/.vim/undodir
@@ -224,3 +232,7 @@ iab codejam import sys
    \<CR>res = solve(xs)
    \<CR>print(f'Case #{case+1}:', res)
    \<CR>
+
+" Just my bad spelling
+iab paramters parameters
+iab Paramters Parameters

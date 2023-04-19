@@ -110,9 +110,13 @@ fi
 ################################################################################
 
 export EDITOR='vim'
+alias pip='pip3'
 alias py='python3'
-alias ipy='ipython --TerminalInteractiveShell.editing_mode=vi'
-alias open='xdg-open'
+alias ipy='ipython3 --TerminalInteractiveShell.editing_mode=vi'
+# alias open='xdg-open' (On linux)
+alias factor='gfactor'
+alias rm="rm -i"
+
 export PATH="$HOME/.local/bin:$PATH"
 set -o vi
 
@@ -120,16 +124,45 @@ set -o vi
 alias ll='ls -l --color=always'
 alias less='less -R'
 
+# Local PIP
+export PATH="/Users/ahle/Library/Python/3.9/bin:$PATH"
+export PATH="/usr/local/opt/python@3/bin:$PATH"
 
-# Share history between shells
-HISTCONTROL=ignoredups:erasedups # Avoid duplicates
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
 shopt -s histappend # When the shell exits, append to the history file instead of overwriting it
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r" # After each command, append to the history file and reread it
+# Share history between shells
+# Maybe I don't want this afterall...
+HISTCONTROL=ignoredups:erasedups # Avoid duplicates
+#PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r" # After each command, append to the history file and reread it
 
 # Show git branch
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 export PS1="\u@\h \[\e[32m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
+
+# Mac OS Local brew
+export PATH="$HOME/homebrew/bin:$PATH"
+export PATH="$HOME/homebrew/sbin:$PATH"
+export PATH="$HOME/homebrew/opt/findutils/libexec/gnubin:$PATH"
+export PATH="$HOME/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="$HOME/homebrew/opt/gnu-getopt/bin:$PATH"
+export PATH="$HOME/homebrew/opt/grep/libexec/gnubin:$PATH"
+export PATH="$HOME/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="$HOME/homebrew/opt/gawk/libexec/gnubin:$PATH"
+# My bin stuff
+export PATH="$HOME/.bin:$PATH"
+
+if [ "$TERM_PROGRAM" != "vscode" ]; then
+    #Start tmux
+   # See https://unix.stackexchange.com/a/113768/13344
+   if command -v tmux &> /dev/null \
+            && [ -n "$PS1" ] \
+            && [[ ! "$TERM" =~ screen ]] \
+            && [[ ! "$TERM" =~ tmux ]] \
+            && [[ ! "$TERM" =~ dumb ]] \
+            && [ -z "$TMUX" ]; then
+     exec tmux new-session -A -s main
+   fi
+fi
