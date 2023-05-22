@@ -1,2 +1,17 @@
 The xkb file goes in /usr/share/X11/xkb/symbols/
+(Maybe an entry also has to be added to /usr/share/X11/xkb/symbols/evdev.xml?)
 
+Reapply the Layout: Use `setxkbmap` to apply your layout again with `setxkbmap thomas`.
+
+Clear Cache: Ubuntu caches the keyboard layout data. If your changes aren't being recognized, it may help to clear this cache using the following commands:
+```bash
+sudo rm -rf /var/lib/xkb/*
+sudo dpkg-reconfigure xkb-data
+```
+
+To check the current layout, you can use the following command:
+```bash
+setxkbmap -print -verbose 10
+```
+
+You can also use `onboard` to show the current layout on the screen.
