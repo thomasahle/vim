@@ -1,3 +1,7 @@
+# Link all the conf files
+conffiles=(.*rc .tmux.conf .alacritty.yml .bash_profile)
+for file in "${conffiles[@]}"; do ln -s ~/repos/vim/"$file" ~/"$file"; done
+
 # Get Vundle, as by https://github.com/VundleVim/Vundle.vim
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall

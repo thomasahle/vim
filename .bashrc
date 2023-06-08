@@ -151,8 +151,15 @@ export PATH="$HOME/homebrew/opt/gnu-getopt/bin:$PATH"
 export PATH="$HOME/homebrew/opt/grep/libexec/gnubin:$PATH"
 export PATH="$HOME/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$HOME/homebrew/opt/gawk/libexec/gnubin:$PATH"
+# Global homebrew
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
 # My bin stuff
 export PATH="$HOME/.bin:$PATH"
+
+# Stop Chrome Swipe Navigation (mac)
+defaults write com.google.Chrome.plist AppleEnableSwipeNavigateWithScrolls -bool FALSE
+defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool FALSE
 
 if [ "$TERM_PROGRAM" != "vscode" ]; then
     #Start tmux
