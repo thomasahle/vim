@@ -30,21 +30,7 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
+color_prompt=yes
 
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -63,14 +49,11 @@ xterm*|rxvt*)
 esac
 
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+alias ls='gls --group-directories-first --color=auto -F'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -157,19 +140,24 @@ export PATH="/opt/homebrew/sbin:$PATH"
 # My bin stuff
 export PATH="$HOME/.bin:$PATH"
 
+
+# Other environment variables
+export OPENAI="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"
+
+
 # Stop Chrome Swipe Navigation (mac)
 defaults write com.google.Chrome.plist AppleEnableSwipeNavigateWithScrolls -bool FALSE
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool FALSE
 
-if [ "$TERM_PROGRAM" != "vscode" ]; then
-    #Start tmux
-   # See https://unix.stackexchange.com/a/113768/13344
-   if command -v tmux &> /dev/null \
-            && [ -n "$PS1" ] \
-            && [[ ! "$TERM" =~ screen ]] \
-            && [[ ! "$TERM" =~ tmux ]] \
-            && [[ ! "$TERM" =~ dumb ]] \
-            && [ -z "$TMUX" ]; then
-     exec tmux new-session -A -s main
-   fi
-fi
+#if [ "$TERM_PROGRAM" != "vscode" ]; then
+#    #Start tmux
+#   # See https://unix.stackexchange.com/a/113768/13344
+#   if command -v tmux &> /dev/null \
+#            && [ -n "$PS1" ] \
+#            && [[ ! "$TERM" =~ screen ]] \
+#            && [[ ! "$TERM" =~ tmux ]] \
+#            && [[ ! "$TERM" =~ dumb ]] \
+#            && [ -z "$TMUX" ]; then
+#     exec tmux new-session -A -s main
+#   fi
+#fi

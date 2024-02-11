@@ -25,9 +25,11 @@ Plugin 'rhysd/vim-textobj-anyblock'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lervag/vimtex'
 
+Plugin 'github/copilot.vim'
+
 "Plugin 'zxqfl/tabnine-vim'
 "Plugin 'rhysd/vim-grammarous'
-Plugin 'w0rp/ale'
+"Plugin 'w0rp/ale'
 
 "Plugin 'Shougo/unite.vim'
 "Plugin 'rhysd/unite-redpen.vim'

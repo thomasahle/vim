@@ -2,6 +2,23 @@ shell:
   program: /bin/bash
   args:
     - --login
+
+# Since vim isn't able to pick up Cmd itself
+key_bindings:
+      # Send 'prefix + p' for Cmd + j
+  - { key: J, mods: Command, chars: "\x02p" }
+    #Send 'prefix + n' for Cmd + k
+  - { key: K, mods: Command, chars: "\x02n" }
+    #Send standard tmux shortcuts for Option/Alt + h/j/k/l
+  - { key: H, mods: Alt, chars: "\x02h" } # Option/Alt + h -> prefix + l (switch to left pane)
+  - { key: J, mods: Alt, chars: "\x02j" } # Option/Alt + j -> prefix + j (switch to bottom pane)
+  - { key: K, mods: Alt, chars: "\x02k" } # Option/Alt + k -> prefix + k (switch to top pane)
+  - { key: L, mods: Alt, chars: "\x02l" } # Option/Alt + l -> prefix + h (switch to right pane)
+
+# Configure Option key as Meta key
+#window.option_as_alt: true
+  #alt_send_esc: true
+
 # Base16 Monokai 256 - alacritty color config
 # Wimer Hazenberg (http://www.monokai.nl)
 colors:
